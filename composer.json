@@ -1,6 +1,7 @@
 {
     "name": "proyecto404/util-bundle",
     "description": "Utility and base classes used by 404's projects",
+    "type": "symfony-bundle",
     "keywords": ["utility", "base"],
     "homepage": "https://github.com/proyecto404/UtilBundle",
     "license": "MIT",
