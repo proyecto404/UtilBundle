@@ -1,0 +1,354 @@
+<?php
+
+namespace Proyecto404\UtilBundle\Controller;
+
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\ValidatorInterface;
+
+/**
+ * Class with convenient utility methods for controllers
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
+ */
+class ControllerUtil
+{
+    private $kernelRootDir;
+    /**
+     * @var EngineInterface
+     */
+    private $templating;
+    /**
+     * @var RouterInterface
+     */
+    private $router;
+    /**
+     * @var FormFactoryInterface
+     */
+    private $formFactory;
+    /**
+     * @var RegistryInterface
+     */
+    private $doctrine;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * @param string                        $kernelRootDir
+     * @param EngineInterface               $templating
+     * @param RouterInterface               $router
+     * @param FormFactoryInterface          $formFactory
+     * @param RegistryInterface             $doctrine
+     * @param TranslatorInterface           $translator
+     * @param TokenStorageInterface         $tokenStorage
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @param ValidatorInterface            $validator
+     * @param EventDispatcherInterface      $eventDispatcher
+     */
+    public function __construct(
+        $kernelRootDir,
+        EngineInterface $templating,
+        RouterInterface $router,
+        FormFactoryInterface $formFactory,
+        RegistryInterface $doctrine,
+        TranslatorInterface $translator,
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        ValidatorInterface $validator,
+        EventDispatcherInterface $eventDispatcher
+    ) {
+        $this->kernelRootDir = $kernelRootDir;
+        $this->templating = $templating;
+        $this->router = $router;
+        $this->formFactory = $formFactory;
+        $this->doctrine = $doctrine;
+        $this->translator = $translator;
+        $this->tokenStorage = $tokenStorage;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->validator = $validator;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKernelRootDir()
+    {
+        return $this->kernelRootDir;
+    }
+
+    /**
+     * @return EngineInterface
+     */
+    public function getTemplating()
+    {
+        return $this->templating;
+    }
+
+    /**
+     * @return ValidatorInterface
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    /**
+     * @return RouterInterface
+     */
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    /**
+     * @return FormFactoryInterface
+     */
+    public function getFormFactory()
+    {
+        return $this->formFactory;
+    }
+
+    /**
+     * @return RegistryInterface
+     */
+    public function getDoctrine()
+    {
+        return $this->doctrine;
+    }
+
+    /**
+     * @return TranslatorInterface
+     */
+    public function getTranslator()
+    {
+        return $this->translator;
+    }
+
+    /**
+     * @return AuthorizationCheckerInterface
+     */
+    public function getAuthorizationChecker()
+    {
+        return $this->authorizationChecker;
+    }
+
+    /**
+     * @return TokenStorageInterface
+     */
+    public function getTokenStorage()
+    {
+        return $this->tokenStorage;
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     */
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
+     * Generates a URL from the given parameters.
+     *
+     * @param string         $route         The name of the route
+     * @param mixed          $parameters    An array of parameters
+     * @param Boolean|string $referenceType The type of reference (one of the constants in UrlGeneratorInterface)
+     *
+     * @return string The generated URL
+     *
+     * @see UrlGeneratorInterface
+     */
+    public function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+    {
+        return $this->router->generate($route, $parameters, $referenceType);
+    }
+
+    /**
+     * Returns a rendered view.
+     *
+     * @param string $view       The view name
+     * @param array  $parameters An array of parameters to pass to the view
+     *
+     * @return string The rendered view
+     */
+    public function renderView($view, array $parameters = array())
+    {
+        return $this->templating->render($view, $parameters);
+    }
+
+    /**
+     * Renders a view.
+     *
+     * @param string   $view       The view name
+     * @param array    $parameters An array of parameters to pass to the view
+     * @param Response $response   A response instance
+     *
+     * @return Response A Response instance
+     */
+    public function render($view, array $parameters = array(), Response $response = null)
+    {
+        return $this->templating->renderResponse($view, $parameters, $response);
+    }
+
+    /**
+     * Streams a view.
+     *
+     * @param string           $view       The view name
+     * @param array            $parameters An array of parameters to pass to the view
+     * @param StreamedResponse $response   A response instance
+     *
+     * @return StreamedResponse A StreamedResponse instance
+     */
+    public function stream($view, array $parameters = array(), StreamedResponse $response = null)
+    {
+        $templating = $this->templating;
+
+        $callback = function () use ($templating, $view, $parameters) {
+            $templating->stream($view, $parameters);
+        };
+
+        if (null === $response) {
+            return new StreamedResponse($callback);
+        }
+
+        $response->setCallback($callback);
+
+        return $response;
+    }
+
+    /**
+     * Creates and returns a Form instance from the type of the form.
+     *
+     * @param string|FormTypeInterface $type    The built type of the form
+     * @param mixed                    $data    The initial data for the form
+     * @param array                    $options Options for the form
+     *
+     * @return Form
+     */
+    public function createForm($type, $data = null, array $options = array())
+    {
+        return $this->formFactory->create($type, $data, $options);
+    }
+
+    /**
+     * Creates and returns a form builder instance
+     *
+     * @param mixed $data    The initial data for the form
+     * @param array $options Options for the form
+     *
+     * @return FormBuilder
+     */
+    public function createFormBuilder($data = null, array $options = array())
+    {
+        return $this->formFactory->createBuilder('form', $data, $options);
+    }
+
+    /**
+     * Gets doctrine entity manager
+     *
+     * @return \Doctrine\ORM\EntityManager Doctrine's entity manager
+     */
+    public function getEntityManager()
+    {
+        return $this->doctrine->getManager();
+    }
+
+    /**
+     * Gets a doctrine's entity proxy for use without loading object from database
+     *
+     * @param string $entityName Entity class name (e.g. MyNeeds:User)
+     * @param string $id         Entity database identifier
+     *
+     * @return object Entity proxy
+     */
+    public function getEntityReference($entityName, $id)
+    {
+        return $this->getEntityManager()->getReference($entityName, $id);
+    }
+
+    /**
+     * Translates the given message.
+     *
+     * @param string $id         The message id (may also be an object that can be cast to string)
+     * @param array  $parameters An array of parameters for the message
+     * @param string $domain     The domain for the message
+     * @param string $locale     The locale
+     *
+     * @return string The translated string
+     */
+    public function trans($id, array $parameters = array(), $domain = 'messages', $locale = null)
+    {
+        return $this->translator->trans($id, $parameters, $domain, $locale);
+    }
+
+    /**
+     * Translates the given choice message by choosing a translation according to a number.
+     *
+     * @param string  $id         The message id (may also be an object that can be cast to string)
+     * @param integer $number     The number to use to find the indice of the message
+     * @param array   $parameters An array of parameters for the message
+     * @param string  $domain     The domain for the message
+     * @param string  $locale     The locale
+     *
+     * @return string The translated string
+     */
+    public function transChoice($id, $number, array $parameters = array(), $domain = 'messages', $locale = null)
+    {
+        return $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
+    }
+
+    /**
+     * Get a user from the Security Context
+     *
+     * @return mixed
+     *
+     * @throws \LogicException If SecurityBundle is not available
+     *
+     * @see Symfony\Component\Security\Core\Authentication\Token\TokenInterface::getUser()
+     */
+    public function getUser()
+    {
+        if (null === $token = $this->tokenStorage->getToken()) {
+            return null;
+        }
+
+        if (!is_object($user = $token->getUser())) {
+            // e.g. anonymous authentication
+            return null;
+        }
+
+        return $user;
+    }
+}
