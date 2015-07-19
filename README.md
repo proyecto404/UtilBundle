@@ -1,8 +1,7 @@
 README
 ======
 
-Installation
-------------
+##Installation
 
 You can install this bundle using composer
 
@@ -29,8 +28,7 @@ public function registerBundles()
 }
 ```
 
-Contents
---------
+##Contents
 
 - **Command**:
   - ExecuteSqlCommand: Symfony console command that executes SQL files in doctrine's default manager.
