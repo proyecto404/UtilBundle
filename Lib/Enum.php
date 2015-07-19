@@ -5,11 +5,24 @@ namespace Proyecto404\UtilBundle\Lib;
 use ReflectionClass;
 
 /**
- * Class Enum
+ * Base class for enum types.
+ *
+ * Usage:
+ * <code>
+ *     final class Genders extends Enum
+ *     {
+ *          const MALE   = 'male';
+ *          const FEMALE = 'female';
+ *     }
+ * </code>
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 abstract class Enum
 {
     /**
+     * Return enum possible values.
+     *
      * @return array
      */
     public static function getConstants()
@@ -20,8 +33,10 @@ abstract class Enum
     }
 
     /**
-     * @param string $name
-     * @param bool   $strict
+     * Checks if a name is valid instance for this enum.
+     *
+     * @param string $name   Name to check
+     * @param bool   $strict Strict mode (case sensitive)
      *
      * @return bool
      */
@@ -39,7 +54,9 @@ abstract class Enum
     }
 
     /**
-     * @param mixed $value
+     * Checks if a value is part of the enum values.
+     *
+     * @param mixed $value Value to check
      *
      * @return bool
      */

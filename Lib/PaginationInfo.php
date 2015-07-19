@@ -3,27 +3,33 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class PaginationInfo
+ * Represents pagination information of set of data.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class PaginationInfo
 {
     private $page;
-    private $totalResultsCount;
+    private $totalItemCount;
     private $itemsPerPage;
 
     /**
-     * @param int $page
-     * @param int $totalResultsCount
-     * @param int $itemsPerPage
+     * Constructor.
+     *
+     * @param int $page           The current page (1 indexed)
+     * @param int $totalItemCount The total amount of items
+     * @param int $itemsPerPage   The amount of items per page
      */
-    public function __construct($page, $totalResultsCount, $itemsPerPage)
+    public function __construct($page, $totalItemCount, $itemsPerPage)
     {
         $this->page = $page;
-        $this->totalResultsCount = $totalResultsCount;
+        $this->totalItemCount = $totalItemCount;
         $this->itemsPerPage = $itemsPerPage;
     }
 
     /**
+     * Gets the current page (1 indexed).
+     *
      * @return int
      */
     public function getPage()
@@ -32,14 +38,18 @@ class PaginationInfo
     }
 
     /**
+     * Gets total item count.
+     *
      * @return int
      */
-    public function getTotalResultsCount()
+    public function getTotalItemCount()
     {
-        return $this->totalResultsCount;
+        return $this->totalItemCount;
     }
 
     /**
+     * Gets items per page.
+     *
      * @return int
      */
     public function getItemsPerPage()
@@ -48,18 +58,22 @@ class PaginationInfo
     }
 
     /**
+     * Gets the page count.
+     *
      * @return int
      */
     public function getPageCount()
     {
-        return ceil($this->getTotalResultsCount() / $this->getItemsPerPage());
+        return ceil($this->getTotalItemCount() / $this->getItemsPerPage());
     }
 
     /**
+     * Indicates if the amount of items should be paginated.
+     *
      * @return bool
      */
     public function shouldPaginate()
     {
-        return $this->getTotalResultsCount() > $this->getItemsPerPage();
+        return $this->getTotalItemCount() > $this->getItemsPerPage();
     }
 }

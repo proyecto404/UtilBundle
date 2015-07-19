@@ -3,8 +3,10 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class InvariantException
+ * InvariantException.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
-class InvariantException extends \Exception
+class InvariantException extends \LogicException
 {
 }

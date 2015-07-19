@@ -7,18 +7,17 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
 /**
- * Class ValuedPasswordType
+ * Password type that maintains value like other inputs.
+ *
+ * @see PasswordType
  */
 class ValuedPasswordType extends PasswordType
 {
     /**
-     * Overrides parent behavior
-     *
-     * @param FormView      $view
-     * @param FormInterface $form
-     * @param array         $options
+     * {@inheritdoc}
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
+        // This method is empty overriding parent behaviour
     }
 }

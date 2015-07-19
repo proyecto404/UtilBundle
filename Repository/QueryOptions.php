@@ -3,7 +3,9 @@
 namespace Proyecto404\UtilBundle\Repository;
 
 /**
- * Class QueryOptions
+ * Query options.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class QueryOptions
 {

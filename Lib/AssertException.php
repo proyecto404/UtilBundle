@@ -3,8 +3,8 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class AssertException
+ * AssertException.
  */
-class AssertException extends \Exception
+class AssertException extends \LogicException
 {
 }

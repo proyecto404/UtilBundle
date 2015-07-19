@@ -16,10 +16,15 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class with convenient utility methods for controllers
+ * Class with convenient utility methods for controllers.
+ *
+ * This class is based on Symfony's Controller class. It's designed to be used
+ * in Controllers that don't inherit from Controller class.
+ *
+ * @see Controller
  *
  * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
@@ -64,6 +69,8 @@ class ControllerUtil
     private $eventDispatcher;
 
     /**
+     * Constructor.
+     *
      * @param string                        $kernelRootDir
      * @param EngineInterface               $templating
      * @param RouterInterface               $router
@@ -100,6 +107,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the Symfony kernel root dir.
+     *
      * @return string
      */
     public function getKernelRootDir()
@@ -108,6 +117,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the templating engine.
+     *
      * @return EngineInterface
      */
     public function getTemplating()
@@ -116,6 +127,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the validator component.
+     *
      * @return ValidatorInterface
      */
     public function getValidator()
@@ -124,6 +137,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the router component.
+     *
      * @return RouterInterface
      */
     public function getRouter()
@@ -132,6 +147,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the form factory component.
+     *
      * @return FormFactoryInterface
      */
     public function getFormFactory()
@@ -140,6 +157,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets doctrine component.
+     *
      * @return RegistryInterface
      */
     public function getDoctrine()
@@ -148,6 +167,31 @@ class ControllerUtil
     }
 
     /**
+     * Gets doctrine entity manager.
+     *
+     * @return \Doctrine\ORM\EntityManager Doctrine's entity manager
+     */
+    public function getEntityManager()
+    {
+        return $this->doctrine->getManager();
+    }
+
+    /**
+     * Gets a doctrine's entity proxy for use without loading object from database.
+     *
+     * @param string $entityName Entity class name (e.g. MyNeeds:User)
+     * @param string $id         Entity database identifier
+     *
+     * @return object Entity proxy
+     */
+    public function getEntityReference($entityName, $id)
+    {
+        return $this->getEntityManager()->getReference($entityName, $id);
+    }
+
+    /**
+     * Gets the translator component.
+     *
      * @return TranslatorInterface
      */
     public function getTranslator()
@@ -156,6 +200,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the authorization checker component.
+     *
      * @return AuthorizationCheckerInterface
      */
     public function getAuthorizationChecker()
@@ -164,6 +210,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the token storage component.
+     *
      * @return TokenStorageInterface
      */
     public function getTokenStorage()
@@ -172,6 +220,8 @@ class ControllerUtil
     }
 
     /**
+     * Gets the event dispatcher component.
+     *
      * @return EventDispatcherInterface
      */
     public function getEventDispatcher()
@@ -263,7 +313,7 @@ class ControllerUtil
     }
 
     /**
-     * Creates and returns a form builder instance
+     * Creates and returns a form builder instance.
      *
      * @param mixed $data    The initial data for the form
      * @param array $options Options for the form
@@ -273,29 +323,6 @@ class ControllerUtil
     public function createFormBuilder($data = null, array $options = array())
     {
         return $this->formFactory->createBuilder('form', $data, $options);
-    }
-
-    /**
-     * Gets doctrine entity manager
-     *
-     * @return \Doctrine\ORM\EntityManager Doctrine's entity manager
-     */
-    public function getEntityManager()
-    {
-        return $this->doctrine->getManager();
-    }
-
-    /**
-     * Gets a doctrine's entity proxy for use without loading object from database
-     *
-     * @param string $entityName Entity class name (e.g. MyNeeds:User)
-     * @param string $id         Entity database identifier
-     *
-     * @return object Entity proxy
-     */
-    public function getEntityReference($entityName, $id)
-    {
-        return $this->getEntityManager()->getReference($entityName, $id);
     }
 
     /**
@@ -316,11 +343,11 @@ class ControllerUtil
     /**
      * Translates the given choice message by choosing a translation according to a number.
      *
-     * @param string  $id         The message id (may also be an object that can be cast to string)
-     * @param integer $number     The number to use to find the indice of the message
-     * @param array   $parameters An array of parameters for the message
-     * @param string  $domain     The domain for the message
-     * @param string  $locale     The locale
+     * @param string $id         The message id (may also be an object that can be cast to string)
+     * @param int    $number     The number to use to find the indice of the message
+     * @param array  $parameters An array of parameters for the message
+     * @param string $domain     The domain for the message
+     * @param string $locale     The locale
      *
      * @return string The translated string
      */
@@ -330,7 +357,7 @@ class ControllerUtil
     }
 
     /**
-     * Get a user from the Security Context
+     * Get a user from the token storage.
      *
      * @return mixed
      *
@@ -341,12 +368,12 @@ class ControllerUtil
     public function getUser()
     {
         if (null === $token = $this->tokenStorage->getToken()) {
-            return null;
+            return;
         }
 
         if (!is_object($user = $token->getUser())) {
             // e.g. anonymous authentication
-            return null;
+            return;
         }
 
         return $user;

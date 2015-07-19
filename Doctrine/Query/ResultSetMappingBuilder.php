@@ -7,11 +7,10 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Query\ResultSetMappingBuilder as DoctrineResultSetMappingBuilder;
 
 /**
- * Class ResultSetMappingBuilder
+ * Class ResultSetMappingBuilder.
  */
 class ResultSetMappingBuilder extends DoctrineResultSetMappingBuilder
 {
-
     /**
      * @var EntityManager
      */
@@ -19,7 +18,7 @@ class ResultSetMappingBuilder extends DoctrineResultSetMappingBuilder
 
     /**
      * @param EntityManager $em
-     * @param integer       $defaultRenameMode
+     * @param int           $defaultRenameMode
      */
     public function __construct(EntityManager $em, $defaultRenameMode = DoctrineResultSetMappingBuilder::COLUMN_RENAMING_NONE)
     {
@@ -41,7 +40,7 @@ class ResultSetMappingBuilder extends DoctrineResultSetMappingBuilder
     }
 
     /**
-     * Adds all fields of the given class to the result set mapping (columns and meta fields)
+     * Adds all fields of the given class to the result set mapping (columns and meta fields).
      *
      * @param string $class
      * @param string $alias

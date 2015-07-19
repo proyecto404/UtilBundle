@@ -6,18 +6,19 @@ use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializationContext;
 
 /**
- * Class JsonResponse
+ * Represents a Json http response.
+ *
+ * Extends Symfony JsonResponse class with JMS Serializer and exposing data before converting to Json
+ * to improve controller testability
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class JsonResponse extends \Symfony\Component\HttpFoundation\JsonResponse
 {
     protected $originalData;
 
     /**
-     * Sets the data to be sent as json.
-     *
-     * @param mixed $data
-     *
-     * @return JsonResponse
+     * {@inheritdoc}
      */
     public function setData($data = array())
     {
@@ -33,7 +34,7 @@ class JsonResponse extends \Symfony\Component\HttpFoundation\JsonResponse
     }
 
     /**
-     * Returns the original data to be encoded in json
+     * Returns the original data to be encoded in json.
      *
      * @return array
      */

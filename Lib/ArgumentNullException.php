@@ -3,14 +3,18 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class ArgumentNullException
+ * ArgumentNullException.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class ArgumentNullException extends ArgumentException
 {
     /**
-     * @param string     $argumentName
-     * @param string     $message
-     * @param \Exception $innerException
+     * Constructor.
+     *
+     * @param string     $argumentName   Argument name
+     * @param string     $message        The error message
+     * @param \Exception $innerException An inner exception
      */
     public function __construct($argumentName, $message = '', \Exception $innerException = null)
     {

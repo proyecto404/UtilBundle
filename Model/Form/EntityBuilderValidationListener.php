@@ -11,7 +11,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ValidatorInterface as LegacyValidatorInterface;
 
 /**
- * Class EntityBuilderValidationListener
+ * Listener that validates the associated entity after the form is validated.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class EntityBuilderValidationListener implements EventSubscriberInterface
 {
@@ -26,6 +28,8 @@ class EntityBuilderValidationListener implements EventSubscriberInterface
     }
 
     /**
+     * Constructor.
+     *
      * @param ValidatorInterface|LegacyValidatorInterface $validator
      */
     public function __construct($validator)

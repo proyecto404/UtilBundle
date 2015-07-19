@@ -5,7 +5,11 @@ namespace Proyecto404\UtilBundle\Lib;
 use ReflectionClass;
 
 /**
- * Class CheckArgument
+ * Internal class to be called from Check::argument mehod.
+ *
+ * This class checks arguments implementing Design By Contract.}
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class CheckArgument
 {
@@ -13,8 +17,10 @@ class CheckArgument
     private $argumentName;
 
     /**
-     * @param string $argumentName
-     * @param mixed  $argument
+     * Constructor.
+     *
+     * @param string $argumentName Argument name to check
+     * @param mixed  $argument     Argument value to check
      */
     public function __construct($argumentName, $argument)
     {
@@ -23,7 +29,10 @@ class CheckArgument
     }
 
     /**
+     * Check that argument is not empty.
+     *
      * @return CheckArgument
+     *
      * @throws ArgumentException
      */
     public function isNotEmpty()
@@ -36,9 +45,12 @@ class CheckArgument
     }
 
     /**
-     * @param int $maxLength
+     * Checks that the argument is not out of length.
+     *
+     * @param int $maxLength Argument max length
      *
      * @return CheckArgument
+     *
      * @throws ArgumentException
      */
     public function isNotOutOfLength($maxLength)
@@ -51,7 +63,10 @@ class CheckArgument
     }
 
     /**
+     * Checks that the argument is not null.
+     *
      * @return CheckArgument
+     *
      * @throws ArgumentNullException
      */
     public function isNotNull()
@@ -64,7 +79,10 @@ class CheckArgument
     }
 
     /**
+     * Checks that the argument is not negative.
+     *
      * @return CheckArgument
+     *
      * @throws ArgumentOutOfRangeException
      */
     public function isNotNegative()
@@ -77,7 +95,10 @@ class CheckArgument
     }
 
     /**
+     * Checks that the argument is not negative or zero.
+     *
      * @return CheckArgument
+     *
      * @throws ArgumentOutOfRangeException
      */
     public function isNotNegativeOrZero()
@@ -90,10 +111,13 @@ class CheckArgument
     }
 
     /**
-     * @param int $min
-     * @param int $max
+     * Checks that the argument is not out of range.
+     *
+     * @param int $min Min value
+     * @param int $max Max value
      *
      * @return CheckArgument
+     *
      * @throws ArgumentOutOfRangeException
      */
     public function isNotOutOfRange($min, $max)
@@ -106,7 +130,10 @@ class CheckArgument
     }
 
     /**
+     * Checks that the argument is numeric.
+     *
      * @return CheckArgument
+     *
      * @throws ArgumentException
      */
     public function isNumeric()
@@ -119,9 +146,12 @@ class CheckArgument
     }
 
     /**
-     * @param string $enumClassName
+     * Checks that the argument value is an instance of the provided enum class.
+     *
+     * @param string $enumClassName Enum class name to check
      *
      * @return CheckArgument
+     *
      * @throws ArgumentException
      */
     public function isEnumValue($enumClassName)

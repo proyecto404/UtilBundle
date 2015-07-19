@@ -3,8 +3,10 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class PostconditionException
+ * PostconditionException.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
-class PostconditionException extends \Exception
+class PostconditionException extends \LogicException
 {
 }

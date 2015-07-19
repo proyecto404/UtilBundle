@@ -6,16 +6,34 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Class RepositoryHelper
+ * Helper class with utility methods for repositories.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class RepositoryHelper
 {
     /**
-     * @param QueryBuilder $qb
-     * @param QueryOptions $options
-     * @param string       $defaultOrderBy
-     * @param string       $defaultOrderDirection
-     * @param array        $additionalAliases
+     * Configures the query builder object with the ordering options.
+     *
+     * Usage:
+     * <code>
+     *     $qb = $this->createQueryBuilder('s')
+     *                ->leftJoin('s.area', 'a')
+     *                ->leftJoin('a.city', 'c');
+     *
+     *     RepositoryHelper::applyOrderingOptionsToQueryBuilder(
+     *         $qb,
+     *         $options,
+     *         'name',
+     *         OrderDirections::ASCENDING,
+     *         array('area' => 'a', 'area.city' => 'c'));
+     * </code>
+     *
+     * @param QueryBuilder $qb                    The querybuilder
+     * @param QueryOptions $options               The query options
+     * @param string       $defaultOrderBy        Default order field
+     * @param string       $defaultOrderDirection Default order direction
+     * @param array        $additionalAliases     Query aditional aliases
      */
     public static function applyOrderingOptionsToQueryBuilder(
         QueryBuilder $qb,
@@ -38,7 +56,7 @@ class RepositoryHelper
         if (is_array($options->orderBy)) {
             $orderBy = self::replaceAliases($entityAlias, $additionalAliases, $options->orderBy[0]);
             $qb->orderBy($orderBy, $options->orderDirection[0]);
-            for ($i = 1; $i < count($options->orderBy); $i++) {
+            for ($i = 1; $i < count($options->orderBy); ++$i) {
                 $orderBy = self::replaceAliases($entityAlias, $additionalAliases, $options->orderBy[$i]);
                 $qb->addOrderBy($orderBy, $options->orderDirection[$i]);
             }
@@ -49,8 +67,10 @@ class RepositoryHelper
     }
 
     /**
-     * @param Query        $query
-     * @param QueryOptions $options
+     * Applies the paging configuration to the query object.
+     *
+     * @param Query        $query   Query object
+     * @param QueryOptions $options Paging options
      */
     public static function applyPagingOptionsToQuery(Query $query, QueryOptions $options = null)
     {

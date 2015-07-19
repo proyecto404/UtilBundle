@@ -3,18 +3,27 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class Check
+ * Implements Design by contract checks.
+ *
+ * @see https://en.wikipedia.org/wiki/Design_by_contract
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class Check
 {
+    /**
+     * Constructor.
+     */
     private function __construct()
     {
     }
 
     /**
-     * @param bool       $assertion
-     * @param string     $message
-     * @param \Exception $innerException
+     * Checks that a precondition is met.
+     *
+     * @param bool       $assertion      The assertion to check
+     * @param string     $message        The precondition message
+     * @param \Exception $innerException An inner exception
      *
      * @throws PreconditionException
      */
@@ -26,9 +35,11 @@ class Check
     }
 
     /**
-     * @param bool       $assertion
-     * @param string     $message
-     * @param \Exception $innerException
+     * Checks that a postcondition is met.
+     *
+     * @param bool       $assertion      The assertion to check
+     * @param string     $message        The postcondition message
+     * @param \Exception $innerException An inner exception
      *
      * @throws PostconditionException
      */
@@ -40,9 +51,11 @@ class Check
     }
 
     /**
-     * @param bool       $assertion
-     * @param string     $message
-     * @param \Exception $innerException
+     * Checks that an invariant is met.
+     *
+     * @param bool       $assertion      The invariant to check
+     * @param string     $message        The error message
+     * @param \Exception $innerException An inner exception
      *
      * @throws InvariantException
      */
@@ -54,9 +67,11 @@ class Check
     }
 
     /**
-     * @param bool       $assertion
-     * @param string     $message
-     * @param \Exception $innerException
+     * Checks that an assertion is met.
+     *
+     * @param bool       $assertion      The assertion to check
+     * @param string     $message        The error message
+     * @param \Exception $innerException An inner exception
      *
      * @throws AssertException
      */
@@ -68,6 +83,8 @@ class Check
     }
 
     /**
+     * Fluent interface for checking arguments.
+     *
      * @param string $argumentName
      * @param mixed  $argument
      *

@@ -3,14 +3,16 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class ArgumentOutOfRangeException
+ * ArgumentOutOfRangeException.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class ArgumentOutOfRangeException extends ArgumentException
 {
     /**
-     * @param string     $argumentName
-     * @param string     $message
-     * @param \Exception $innerException
+     * @param string     $argumentName   Argument name
+     * @param string     $message        The error message
+     * @param \Exception $innerException An inner exception
      */
     public function __construct($argumentName, $message = '', \Exception $innerException = null)
     {

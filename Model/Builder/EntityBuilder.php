@@ -3,14 +3,21 @@
 namespace Proyecto404\UtilBundle\Model\Builder;
 
 /**
- * Class EntityBuilder
+ * Base class for entity builders.
+ *
+ * An entity builder constructs or updates a domain entity exposing an interface
+ * with the properties of that entity.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 abstract class EntityBuilder
 {
     protected $entity;
 
     /**
-     * @param mixed $entity
+     * Constructor.
+     *
+     * @param mixed $entity The entity object
      */
     public function __construct($entity = null)
     {
@@ -18,6 +25,8 @@ abstract class EntityBuilder
     }
 
     /**
+     * Builds a new entity or updates the given entity.
+     *
      * @return mixed|null
      */
     public function build()
@@ -32,6 +41,8 @@ abstract class EntityBuilder
     }
 
     /**
+     * Returns the entity object.
+     *
      * @return mixed|null
      */
     public function getEntity()
@@ -40,19 +51,23 @@ abstract class EntityBuilder
     }
 
     /**
+     * Indicates if the entity is beign created or updated.
+     *
      * @return bool
      */
     abstract public function isNew();
 
     /**
+     * Creates the new entity with the builder data.
+     *
      * @return mixed
      */
     abstract protected function createEntity();
 
     /**
-     * @param mixed $entity
+     * Updates the entity with the builder data.
      *
-     * @return void
+     * @param mixed $entity
      */
     abstract protected function updateEntity($entity);
 }

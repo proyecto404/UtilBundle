@@ -5,11 +5,15 @@ namespace Proyecto404\UtilBundle\Form;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * Class FormUtil
+ * Utility class for forms.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class FormUtil
 {
     /**
+     * Gets an associative array with all the errors in a form and it's children.
+     *
      * @param FormInterface $form
      *
      * @return array

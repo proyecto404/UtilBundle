@@ -3,13 +3,16 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class GeopositionHelper
+ * Helper class with geoposition utility methods.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class GeopositionHelper
 {
     /**
      * Calculates the great-circle distance between two points, with
      * the Haversine formula.
+     *
      * @param float $latitudeFrom  Latitude of start point in [deg decimal]
      * @param float $longitudeFrom Longitude of start point in [deg decimal]
      * @param float $latitudeTo    Latitude of target point in [deg decimal]

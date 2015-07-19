@@ -3,8 +3,10 @@
 namespace Proyecto404\UtilBundle\Lib;
 
 /**
- * Class PreconditionException
+ * PreconditionException.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
-class PreconditionException extends \Exception
+class PreconditionException extends \LogicException
 {
 }

@@ -6,10 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class EntityBuilderType
+ * Base class for all EntityBuilder's form types.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 abstract class EntityBuilderType extends AbstractType
 {
@@ -19,6 +21,8 @@ abstract class EntityBuilderType extends AbstractType
     protected $validation;
 
     /**
+     * Constructor.
+     *
      * @param ValidatorInterface $validation
      */
     public function __construct(ValidatorInterface $validation)
@@ -39,7 +43,6 @@ abstract class EntityBuilderType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['attr']['class'] = 'form-horizontal';
         $view->vars['attr']['novalidate'] = 'novalidate';
     }
 }

@@ -5,7 +5,9 @@ namespace Proyecto404\UtilBundle\Repository;
 use Proyecto404\UtilBundle\Lib\Enum;
 
 /**
- * Class OrderDirections
+ * Enum class with ordering directions.
+ *
+ * @author Nicolas Bottarini <nicolasbottarini@gmail.com>
  */
 class OrderDirections extends Enum
 {

@@ -1,7 +1,8 @@
 README
 ======
 
-## Installation
+Installation
+------------
 
 You can install this bundle using composer
 
@@ -28,6 +29,34 @@ public function registerBundles()
 }
 ```
 
+Contents
+--------
+
+- **Command**:
+  - ExecuteSqlCommand: Symfony console command that executes SQL files in doctrine's default manager.
+- **Controller**:
+  - ControllerBase: Base class with convenient utility methods for controllers.
+- **Form**:
+  - FormUtil: Utility class for forms.
+  - ValuedPasswordType: Password type that maintains value like other inputs.
+- **Http**:
+  - JsonResponse: Better Json response object.
+- **Lib**:
+  - Check: Implements Design by Contract. 
+  - Enum: Base class for enum types.
+  - GeopositionHelper: Helper class with geoposition utility methods.
+  - PaginationInfo: Represents pagination information of set of data.
+- **Model\Builder**:
+  - EntityBuilder: Base class for entity builders.
+- **Model\Form**:
+  - EntityBuilderType: Base class for all EntityBuilder's form types.
+- **Repository**:
+  - EntityRepositoryInterface: Interface for domain entities repositories.
+  - OrderDirections: Enum class with ordering directions.
+  - RepositoryHelper: Helper class with utility methods for repositories.
+- **Security\Encoder**:
+  - Md5NoSaltEncoder: Encode a password in md5 without use the salt.  
+  
 License
 -------
 
