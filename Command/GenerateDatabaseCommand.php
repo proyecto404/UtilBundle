@@ -42,7 +42,7 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
             return;
         }
 
-        $arguments = array('sql_file' => '..\\src\\DataBundle\\Scripts\\after_create_schema.sql');
+        $arguments = array('sql_file' => 'src\\DataBundle\\Scripts\\after_create_schema.sql');
         $returnCode = $this->executeCommand('proyecto404:execute-sql', $arguments, $output);
         if ($returnCode != 0) {
             return;
@@ -51,7 +51,7 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
         try {
             $arguments = array(
                 '--no-interaction' => true,
-                '--fixtures'       => array('..\\src\\DataBundle\\DataFixtures\\Required')
+                '--fixtures'       => array('src\\DataBundle\\DataFixtures\\Required')
             );
             $this->executeCommand('doctrine:fixtures:load', $arguments, $output);
         } catch (InvalidArgumentException $e) {
