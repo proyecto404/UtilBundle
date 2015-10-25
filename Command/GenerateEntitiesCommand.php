@@ -20,7 +20,7 @@ class GenerateEntitiesCommand extends ContainerAwareCommand
     {
         $this
             ->setName('proyecto404:generate-entities')
-            ->setDescription('Generate entities');
+            ->setDescription('Generate entities getters and setters');
 
     }
 
