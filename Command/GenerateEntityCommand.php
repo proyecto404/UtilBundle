@@ -30,20 +30,12 @@ class GenerateEntityCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->getContainer()->hasParameter('app_name')) {
-            $output->writeln('<error>Missing parameter app_name in parameters.yml</error>');
-
-            return;
-        }
-
-        $appName = $this->getContainer()->getParameter('app_name');
-
         $entity = $input->getArgument('entity');
         $command = $this->getApplication()->find('doctrine:generate:entities');
         $arguments = array(
             'command' => 'doctrine:generate:entities',
             '--no-backup' => true,
-            'name' => $appName.'/DomainBundle/Entity/'.$entity
+            'name' => 'DomainBundle/Entity/'.$entity
         );
 
         $input = new ArrayInput($arguments);

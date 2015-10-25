@@ -30,14 +30,6 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->getContainer()->hasParameter('app_name')) {
-            $output->writeln('<error>Missing parameter app_name in parameters.yml</error>');
-
-            return;
-        }
-
-        $appName = $this->getContainer()->getParameter('app_name');
-
         $this->executeCommand('doctrine:database:drop', array('--force' => true), $output);
 
         $returnCode = $this->executeCommand('doctrine:database:create', array(), $output);
@@ -50,7 +42,7 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
             return;
         }
 
-        $arguments = array('sql_file' => '..\\src\\'.$appName.'\\DataBundle\\Scripts\\after_create_schema.sql');
+        $arguments = array('sql_file' => '..\\src\\DataBundle\\Scripts\\after_create_schema.sql');
         $returnCode = $this->executeCommand('proyecto404:execute-sql', $arguments, $output);
         if ($returnCode != 0) {
             return;
@@ -59,7 +51,7 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
         try {
             $arguments = array(
                 '--no-interaction' => true,
-                '--fixtures'       => array('..\\src\\'.$appName.'\\DataBundle\\DataFixtures\\Required')
+                '--fixtures'       => array('..\\src\\DataBundle\\DataFixtures\\Required')
             );
             $this->executeCommand('doctrine:fixtures:load', $arguments, $output);
         } catch (InvalidArgumentException $e) {
@@ -69,14 +61,14 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
         try {
             $arguments = array(
                 '--no-interaction' => true,
-                '--fixtures' => array('..\\src\\'.$appName.'\\DataBundle\\DataFixtures\\Development')
+                '--fixtures' => array('..\\src\\DataBundle\\DataFixtures\\Development')
             );
             $this->executeCommand('doctrine:fixtures:load', $arguments, $output);
         } catch (InvalidArgumentException $e) {
             $output->writeln('<comment>No development fixtures found</comment>');
         }
 
-        $arguments = array('sql_file' => '..\\src\\'.$appName.'\\DataBundle\\Scripts\\after_data_load.sql');
+        $arguments = array('sql_file' => '..\\src\\DataBundle\\Scripts\\after_data_load.sql');
         $returnCode = $this->executeCommand('proyecto404:execute-sql', $arguments, $output);
         if ($returnCode != 0) {
             return;
