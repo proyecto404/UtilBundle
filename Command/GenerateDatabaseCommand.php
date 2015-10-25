@@ -22,7 +22,6 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
     {
         $this
             ->setName('proyecto404:generate-database')
-            ->setAliases(array('proyecto404:generate-db', 'proyecto404:update-db'))
             ->setDescription('Generate database and load it with fixtures');
     }
 
