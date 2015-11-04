@@ -51,21 +51,14 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
         try {
             $arguments = array(
                 '--no-interaction' => true,
-                '--fixtures'       => array('src\\DataBundle\\DataFixtures\\Required')
+                '--fixtures'       => array(
+                    'src\\DataBundle\\DataFixtures\\Required', 
+                    'src\\DataBundle\\DataFixtures\\Development'
+                )
             );
             $this->executeCommand('doctrine:fixtures:load', $arguments, $output);
         } catch (InvalidArgumentException $e) {
-            $output->writeln('<comment>No required fixtures found</comment>');
-        }
-
-        try {
-            $arguments = array(
-                '--no-interaction' => true,
-                '--fixtures' => array('src\\DataBundle\\DataFixtures\\Development')
-            );
-            $this->executeCommand('doctrine:fixtures:load', $arguments, $output);
-        } catch (InvalidArgumentException $e) {
-            $output->writeln('<comment>No development fixtures found</comment>');
+            $output->writeln('<comment>No fixtures found</comment>');
         }
 
         $arguments = array('sql_file' => 'src\\DataBundle\\Scripts\\after_data_load.sql');
