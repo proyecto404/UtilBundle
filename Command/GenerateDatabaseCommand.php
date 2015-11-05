@@ -52,8 +52,8 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
             $arguments = array(
                 '--no-interaction' => true,
                 '--fixtures'       => array(
-                    'src\\DataBundle\\DataFixtures\\Required', 
-                    'src\\DataBundle\\DataFixtures\\Development'
+                    'src/DataBundle/DataFixtures/Required', 
+                    'src/DataBundle/DataFixtures/Development'
                 )
             );
             $this->executeCommand('doctrine:fixtures:load', $arguments, $output);
