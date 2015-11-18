@@ -58,7 +58,11 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
             );
             $this->executeCommand('doctrine:fixtures:load', $arguments, $output);
         } catch (InvalidArgumentException $e) {
-            $output->writeln('<comment>No fixtures found</comment>');
+            if (strpos($e->getMessage(), 'Could not find any fixtures to load') !== false) {
+                $output->writeln('<comment>No fixtures found</comment>');
+            } else {
+                throw $e;
+            }
         }
 
         $arguments = array('sql_file' => 'src/DataBundle/Scripts/after_data_load.sql');
