@@ -63,7 +63,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
      * @param QueryBuilder $qb
      * @param mixed        $criteria
      */
-    protected function applySearchCriteriaToQueryBuilder(QueryBuilder $qb, $criteria = null)
+    protected function applySearchCriteriaToQueryBuilder(QueryBuilder $qb, $criteria)
     {
     }
 
@@ -162,7 +162,9 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder($rootAlias);
         $qb->select('count('.$rootAlias.'.id)');
         $this->addDefaultRelations($qb);
-        $this->applySearchCriteriaToQueryBuilder($qb, $criteria);
+        if ($criteria != null) {
+            $this->applySearchCriteriaToQueryBuilder($qb, $criteria);
+        }
 
         return $qb->getQuery()->getSingleScalarResult();
     }
@@ -191,7 +193,9 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $this->addDefaultRelations($qb);
-        $this->applySearchCriteriaToQueryBuilder($qb, $criteria);
+        if ($criteria != null) {
+            $this->applySearchCriteriaToQueryBuilder($qb, $criteria);
+        }
         $this->applyOrderingOptionsToQueryBuilder($qb, $options);
 
         $query = $qb->getQuery();
