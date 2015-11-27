@@ -9,8 +9,11 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -30,7 +33,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ControllerUtil
 {
-    private $kernelRootDir;
+    /**
+     * @var HttpKernelInterface
+     */
+    private $httpKernel;
     /**
      * @var EngineInterface
      */
@@ -67,10 +73,15 @@ class ControllerUtil
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
+    /**
+     * @var string
+     */
+    private $kernelRootDir;
 
     /**
      * Constructor.
      *
+     * @param HttpKernelInterface           $httpKernel
      * @param string                        $kernelRootDir
      * @param EngineInterface               $templating
      * @param RouterInterface               $router
@@ -83,6 +94,7 @@ class ControllerUtil
      * @param EventDispatcherInterface      $eventDispatcher
      */
     public function __construct(
+        HttpKernelInterface $httpKernel,
         $kernelRootDir,
         EngineInterface $templating,
         RouterInterface $router,
@@ -94,6 +106,7 @@ class ControllerUtil
         ValidatorInterface $validator,
         EventDispatcherInterface $eventDispatcher
     ) {
+        $this->httpKernel = $httpKernel;
         $this->kernelRootDir = $kernelRootDir;
         $this->templating = $templating;
         $this->router = $router;
@@ -107,8 +120,14 @@ class ControllerUtil
     }
 
     /**
-     * Gets the Symfony kernel root dir.
-     *
+     * @return HttpKernelInterface
+     */
+    public function getHttpKernel()
+    {
+        return $this->httpKernel;
+    }
+
+    /**
      * @return string
      */
     public function getKernelRootDir()
@@ -243,6 +262,24 @@ class ControllerUtil
     public function generateUrl($route, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         return $this->router->generate($route, $parameters, $referenceType);
+    }
+
+    /**
+     * Forwards the request to another controller.
+     *
+     * @param Request $request    The current request
+     * @param string  $controller The controller name (a string like BlogBundle:Post:index)
+     * @param array   $path       An array of path parameters
+     * @param array   $query      An array of query parameters
+     *
+     * @return Response A Response instance
+     */
+    public function forward(Request $request, $controller, array $path = array(), array $query = array())
+    {
+        $path['_controller'] = $controller;
+        $subRequest = $request->duplicate($query, null, $path);
+
+        return $this->getKernel()->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
 
     /**

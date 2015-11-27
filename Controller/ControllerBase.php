@@ -197,6 +197,21 @@ abstract class ControllerBase
     }
 
     /**
+     * Forwards the request to another controller.
+     *
+     * @param Request $request    The current request
+     * @param string  $controller The controller name (a string like BlogBundle:Post:index)
+     * @param array   $path       An array of path parameters
+     * @param array   $query      An array of query parameters
+     *
+     * @return Response A Response instance
+     */
+    protected function forward(Request $request, $controller, array $path = array(), array $query = array())
+    {
+        return $this->controllerUtil->forward($request, $controller, $path, $query);
+    }
+
+    /**
      * Returns a rendered view.
      *
      * @param string $view       The view name

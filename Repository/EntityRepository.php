@@ -162,7 +162,8 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder($rootAlias);
         $qb->select('count('.$rootAlias.'.id)');
         $this->addDefaultRelations($qb);
-        if ($criteria != null) {
+
+        if ($criteria) {
             $this->applySearchCriteriaToQueryBuilder($qb, $criteria);
         }
 
@@ -193,7 +194,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $this->addDefaultRelations($qb);
-        if ($criteria != null) {
+        if ($criteria) {
             $this->applySearchCriteriaToQueryBuilder($qb, $criteria);
         }
         $this->applyOrderingOptionsToQueryBuilder($qb, $options);

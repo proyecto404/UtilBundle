@@ -2,6 +2,7 @@ services:
     proyecto404_util.controller_util:
         class: Proyecto404\UtilBundle\Controller\ControllerUtil
         arguments:
+            kernel: @http_kernel
             kernelRootDir: '%kernel.root_dir%'
             templating: @templating
             router: @router

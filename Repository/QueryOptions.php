@@ -36,14 +36,14 @@ class QueryOptions
 
     /**
      * @param int        $page
-     * @param int        $itemsPerPage
+     * @param int|null   $itemsPerPage
      * @param string     $orderBy
      * @param string     $orderDirection
      * @param array|null $fetchRelations
      */
     public function __construct(
         $page = 1,
-        $itemsPerPage = 10,
+        $itemsPerPage = null,
         $orderBy = '',
         $orderDirection = OrderDirections::DESCENDING,
         array $fetchRelations = null
