@@ -279,7 +279,7 @@ class ControllerUtil
         $path['_controller'] = $controller;
         $subRequest = $request->duplicate($query, null, $path);
 
-        return $this->getKernel()->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+        return $this->getHttpKernel()->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
 
     /**
