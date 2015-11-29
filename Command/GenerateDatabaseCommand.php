@@ -30,8 +30,10 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->executeCommand('doctrine:database:drop', array('--force' => true), $output);
-
+        // Hack for postgreSQL. Database drop in the same script don't release the connection.
+        echo exec('php '.$_SERVER['PHP_SELF'].' doctrine:database:drop --force --if-exists');
+        $output->writeln('');
+        //$this->executeCommand('doctrine:database:drop', array('--force' => true, '--if-exists' => true), $output);
         $returnCode = $this->executeCommand('doctrine:database:create', array(), $output);
         if ($returnCode != 0) {
             return;
@@ -52,7 +54,7 @@ class GenerateDatabaseCommand extends ContainerAwareCommand
             $arguments = array(
                 '--no-interaction' => true,
                 '--fixtures'       => array(
-                    'src/DataBundle/DataFixtures/Required', 
+                    'src/DataBundle/DataFixtures/Required',
                     'src/DataBundle/DataFixtures/Development'
                 )
             );
