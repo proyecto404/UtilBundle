@@ -115,7 +115,6 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
     protected function applyOrderingOptionsToQueryBuilder(QueryBuilder $qb, QueryOptions $options = null)
     {
         $options = QueryOptions::from($options);
-
         if (is_array($options->orderBy)) {
             $orderBy = $this->replaceAliases($options->orderBy[0]);
             $qb->orderBy($orderBy, $options->orderDirection[0]);
@@ -219,9 +218,11 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
         foreach ($this->aliases as $relation => $alias) {
             $orderBy = preg_replace('/^'.$relation.'\./', $alias.'.', $orderBy);
         }
-        if ($originalOrderBy == $orderBy) {
+        if ($originalOrderBy == $orderBy && strpos($orderBy, 'HIDDEN ') === false) {
             $orderBy = sprintf('%s.%s', $this->rootAlias(), $orderBy);
         }
+
+        $orderBy = str_replace('HIDDEN ', '', $orderBy);
 
         return $orderBy;
     }
