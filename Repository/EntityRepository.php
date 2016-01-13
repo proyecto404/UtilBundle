@@ -74,8 +74,8 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
      */
     protected function addDefaultRelations(QueryBuilder $qb)
     {
-        $defaultLoadedRelations = $this->defaultLoadedRelations();
-        foreach ($defaultLoadedRelations as $relation) {
+        $defaultJoinedRelations = $this->defaultJoinedRelations();
+        foreach ($defaultJoinedRelations as $relation) {
             $qb->leftJoin($this->processedAliases[$relation], $this->getAliasFor($relation));
         }
     }
@@ -88,9 +88,9 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
      */
     protected function addRelations(QueryBuilder $qb, array $relations)
     {
-        $defaultLoadedRelations = $this->defaultLoadedRelations();
+        $defaultJoinedRelations = $this->defaultJoinedRelations();
         foreach ($relations as $relation) {
-            if (!in_array($relation, $defaultLoadedRelations)) {
+            if (!in_array($relation, $defaultJoinedRelations)) {
                 $qb->leftJoin($this->processedAliases[$relation], $this->getAliasFor($relation));
             }
         }
@@ -101,7 +101,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
      *
      * @return array
      */
-    protected function defaultLoadedRelations()
+    protected function defaultJoinedRelations()
     {
         return array();
     }
