@@ -2,17 +2,17 @@ services:
     proyecto404_util.controller_util:
         class: Proyecto404\UtilBundle\Controller\ControllerUtil
         arguments:
-            kernel: @http_kernel
+            kernel: '@http_kernel'
             kernelRootDir: '%kernel.root_dir%'
-            templating: @templating
-            router: @router
-            formFactory: @form.factory
-            doctrine: @doctrine
-            translator: @translator
-            tokenStorage: @security.token_storage
-            authorizationChecker: @security.authorization_checker
-            validator: @validator
-            eventDispatcher: @event_dispatcher
+            templating: '@templating'
+            router: '@router'
+            formFactory: '@form.factory'
+            doctrine: '@doctrine'
+            translator: '@translator'
+            tokenStorage: '@security.token_storage'
+            authorizationChecker: '@security.authorization_checker'
+            validator: '@validator'
+            eventDispatcher: '@event_dispatcher'
 
     proyecto404_util.security.md5_encoder:
         class: Proyecto404\UtilBundle\Security\Encoder\Md5NoSaltEncoder
