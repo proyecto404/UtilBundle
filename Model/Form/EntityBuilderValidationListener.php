@@ -62,8 +62,8 @@ class EntityBuilderValidationListener implements EventSubscriberInterface
                 $form->addError(new FormError(
                     $violation->getMessage(),
                     $violation->getMessageTemplate(),
-                    $violation->getMessageParameters(),
-                    $violation->getMessagePluralization(),
+                    $violation->getParameters(),
+                    $violation->getPlural(),
                     $violation
                 ));
             }
