@@ -430,4 +430,43 @@ abstract class ControllerBase
     {
         return $this->getControllerUtil()->getAuthorizationChecker()->isGranted($attributes, $object);
     }
+    
+    /**
+     * @return Proyecto404\UtilBundle\Http\JsonResponse
+     */
+    protected function jsonResult(array $data = [])
+    {
+        return $this->json([
+            'hasError' => false,
+            'result' => $data
+        ]);
+    }
+
+    /**
+     * @return Proyecto404\UtilBundle\Http\JsonResponse
+     */    
+    protected function jsonError($error = null)
+    {
+        $data = [
+            'hasError' => true,
+            'error' => $error
+        ];
+
+        return $this->json($data);
+    }
+
+    /**
+     * @param string $viewName
+     * @param array  $viewParameters
+     * @param array  $result
+     *
+     * @return \Proyecto404\UtilBundle\Http\JsonResponse
+     */
+    protected function jsonView($viewName, array $viewParameters = [], array $result = [])
+    {
+        $html = $this->renderView($viewName, $viewParameters);
+        $result = array_merge($result, ['html' => $html]);
+
+        return $this->jsonResult($result);
+    }    
 }
