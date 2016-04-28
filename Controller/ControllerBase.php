@@ -445,11 +445,14 @@ abstract class ControllerBase
     /**
      * @return Proyecto404\UtilBundle\Http\JsonResponse
      */    
-    protected function jsonError($error = null)
+    protected function jsonError($message = '', $code = -1)
     {
         $data = [
             'hasError' => true,
-            'error' => $error
+            'error' => [
+                'message' => $message,
+                'code' => $code
+            ]
         ];
 
         return $this->json($data);
