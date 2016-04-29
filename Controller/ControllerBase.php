@@ -157,7 +157,7 @@ abstract class ControllerBase
     protected function jsonView($viewName, array $viewParameters = array(), array $result = array())
     {
         $html = $this->renderView($viewName, $viewParameters);
-        $result = array_merge($result, array('html' => $html));
+        $result = array_merge($result, ['html' => $html]);
 
         return new JsonResponse($result);
     }
@@ -457,19 +457,4 @@ abstract class ControllerBase
 
         return $this->json($data);
     }
-
-    /**
-     * @param string $viewName
-     * @param array  $viewParameters
-     * @param array  $result
-     *
-     * @return \Proyecto404\UtilBundle\Http\JsonResponse
-     */
-    protected function jsonView($viewName, array $viewParameters = [], array $result = [])
-    {
-        $html = $this->renderView($viewName, $viewParameters);
-        $result = array_merge($result, ['html' => $html]);
-
-        return $this->jsonResult($result);
-    }    
 }
