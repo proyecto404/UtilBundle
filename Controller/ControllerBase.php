@@ -159,7 +159,7 @@ abstract class ControllerBase
         $html = $this->renderView($viewName, $viewParameters);
         $result = array_merge($result, ['html' => $html]);
 
-        return new JsonResponse($result);
+        return $this->jsonResult($result);
     }
 
     /**
