@@ -215,7 +215,8 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
     private function replaceAliases($orderBy)
     {
         $originalOrderBy = $orderBy;
-        foreach ($this->aliases as $relation => $alias) {
+        $aliases = array_reverse($this->aliases);
+        foreach ($aliases as $relation => $alias) {
             $orderBy = preg_replace('/^'.$relation.'\./', $alias.'.', $orderBy);
         }
         if ($originalOrderBy == $orderBy && strpos($orderBy, 'HIDDEN ') === false) {
