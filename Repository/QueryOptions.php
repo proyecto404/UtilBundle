@@ -55,6 +55,10 @@ class QueryOptions
         $this->fetchRelations = $fetchRelations;
     }
 
+    public function hasPagination() {
+        return !empty($options->itemsPerPage);
+    }
+
     /**
      * @param string $defaultOrderBy
      * @param string $defaultOrderDirection

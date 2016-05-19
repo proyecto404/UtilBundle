@@ -5,6 +5,7 @@ namespace Proyecto404\UtilBundle\Repository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * Class EntityRepository
@@ -140,7 +141,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
             return;
         }
 
-        if (!empty($options->itemsPerPage)) {
+        if ($options->hasPagination()) {
             $query->setFirstResult(($options->page - 1) * $options->itemsPerPage);
             $query->setMaxResults($options->itemsPerPage);
         }
@@ -201,6 +202,11 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
         $query = $qb->getQuery();
 
         $this->applyPagingOptionsToQuery($query, $options);
+
+        if ($options != null && $options->hasPagination()) {
+            // Use paginator to avoid errors with fetch collections
+            return new Paginator($query);
+        }
 
         return $query->execute();
     }
