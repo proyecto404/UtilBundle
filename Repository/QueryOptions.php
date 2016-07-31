@@ -56,7 +56,7 @@ class QueryOptions
     }
 
     public function hasPagination() {
-        return !empty($options->itemsPerPage);
+        return !empty($this->itemsPerPage);
     }
 
     /**
