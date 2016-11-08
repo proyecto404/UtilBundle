@@ -443,7 +443,7 @@ abstract class ControllerBase
     }
 
     /**
-     * @return Proyecto404\UtilBundle\Http\JsonResponse
+     * @return JsonResponse
      */    
     protected function jsonError($message = '', $code = -1)
     {
